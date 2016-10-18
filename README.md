@@ -1,4 +1,4 @@
-# Serilog.Extensions.Logging.File [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Serilog.Extensions.Logging.File.svg)](https://nuget.org/packages/Serilog.Extensions.Logging.File) [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog)
+# Serilog.Extensions.Logging.File [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Serilog.Extensions.Logging.File.svg)](https://nuget.org/packages/Serilog.Extensions.Logging.File) [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog) [![Build status](https://ci.appveyor.com/api/projects/status/vcmt0kn7x2wmjvl0?svg=true)](https://ci.appveyor.com/project/NicholasBlumhardt/serilog-extensions-logging-file)
 
 This package makes it a one-liner - `loggerFactory.AddFile()` - to configure top-quality file logging for ASP.NET Core apps.
 
@@ -102,9 +102,9 @@ The provider supports the templated log messages used by _Microsoft.Extensions.L
 This means that although the text of two messages may be different, their **event id** fields will match, as shown by the two "view" logging statements below:
 
 ```
-2016-10-18T11:14:26.2544709+10:00 0HKVMUG8EMJO9 [INF] Executing ViewResult, running view at path "/Views/Home/About.cshtml". (9707eebe)
+2016-10-18T11:14:26.2544709+10:00 0HKVMUG8EMJO9 [INF] Running view at "/Views/Home/About.cshtml". (9707eebe)
 2016-10-18T11:14:11.0881912+10:00 0HKVMUG8EMJO9 [INF] Hello, world! (f83bcf75)
-2016-10-18T11:14:26.2544709+10:00 0HKVMUG8EMJO9 [INF] Executing ViewResult, running view at path "/Views/Home/Index.cshtml". (9707eebe)
+2016-10-18T11:14:26.2544709+10:00 0HKVMUG8EMJO9 [INF] Running view at "/Views/Home/Index.cshtml". (9707eebe)
 ```
 
 Each log message describing view rendering is tagged with `(9707eebe)`, while the "hello" log message is given `(f83bcf75)`. This makes it easy to search the log for messages describing the same kind of event.
