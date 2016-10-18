@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0-*",
+
+  "description": "Add file logging to ASP.NET Core apps with one line of code.",
+  "authors": [ "Serilog Contributors" ],
+
+  "packOptions": {
+    "tags": [ "asp.net", "core", "logging", "file" ],
+    "projectUrl": "https://github.com/serilog/serilog-extensions-logging-file",
+    "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
+    "iconUrl": "http://serilog.net/images/serilog-extension-nuget.png"
+  },
+
+  "dependencies": {
+    "Serilog": "2.3.0",
+    "Serilog.Sinks.RollingFile": "3.1.0",
+    "Serilog.Formatting.Compact": "1.0.0",
+    "Serilog.Extensions.Logging": "1.2.0",
+    "Serilog.Sinks.Async": "1.0.1",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0"
+  },
+
+  "frameworks": {
+    "net4.5": {
+      "buildOptions": {"define": ["SHARING"]}
+    },
+    "netstandard1.3": {}
+  },
+
+  "buildOptions": {
+    "warningsAsErrors": true,
+    "xmlDoc": true,
+    "keyFile": "../../assets/Serilog.snk"
+  }
+}
