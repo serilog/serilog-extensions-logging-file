@@ -12,7 +12,7 @@ build_script:
 - ps: ./Build.ps1
 test: off
 artifacts:
-- path: artifacts/Serilog.Formatting.Compact.Reader.*.nupkg
+- path: artifacts/Serilog.Extensions.Logging.File.*.nupkg
 deploy:
 - provider: NuGet
   api_key:
