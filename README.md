@@ -13,7 +13,7 @@ You can get started quickly with this package, and later migrate to the full Ser
 
 ### Getting started
 
-Add [the NuGet package](https://nuget.org/packages/serilog.extensions.logging.file) to the `"dependencies"` section of your `project.json` file:
+**1.** Add [the NuGet package](https://nuget.org/packages/serilog.extensions.logging.file) to the `"dependencies"` section of your `project.json` file:
 
 ```json
     "dependencies": {
@@ -21,7 +21,7 @@ Add [the NuGet package](https://nuget.org/packages/serilog.extensions.logging.fi
     }
 ```
 
-In your `Startup` class's `Configure()` method, call `AddFile()` on the provided `loggerFactory`.
+**2.** In your `Startup` class's `Configure()` method, call `AddFile()` on the provided `loggerFactory`.
 
 ```csharp
     public void Configure(IApplicationBuilder app,
@@ -31,7 +31,7 @@ In your `Startup` class's `Configure()` method, call `AddFile()` on the provided
         loggerFactory.AddFile("Logs/myapp-{Date}.txt");
 ```
 
-The framework will inject `ILogger` instances into controllers and other classes:
+**Done!** The framework will inject `ILogger` instances into controllers and other classes:
 
 ```csharp
 class HomeController : Controller
