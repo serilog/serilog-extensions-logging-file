@@ -23,5 +23,9 @@
         "portable-net45+win8"
       ]
     }
+  },
+
+  "buildOptions": {
+    "keyFile": "../../assets/Serilog.snk"
   }
 }

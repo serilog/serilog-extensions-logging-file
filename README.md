@@ -1,4 +1,4 @@
-# Serilog.Extensions.Logging.File [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Serilog.Extensions.Logging.File.svg)](https://nuget.org/packages/Serilog.Extensions.Logging.File) [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog) [![Build status](https://ci.appveyor.com/api/projects/status/vcmt0kn7x2wmjvl0?svg=true)](https://ci.appveyor.com/project/NicholasBlumhardt/serilog-extensions-logging-file)
+# Serilog.Extensions.Logging.File [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Serilog.Extensions.Logging.File.svg)](https://nuget.org/packages/Serilog.Extensions.Logging.File) [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog) [![Build status](https://ci.appveyor.com/api/projects/status/rdff6bp9oeqfxif7?svg=true)](https://ci.appveyor.com/project/serilog/serilog-extensions-logging-file)
 
 This package makes it a one-liner - `loggerFactory.AddFile()` - to configure top-quality file logging for ASP.NET Core apps.
 
