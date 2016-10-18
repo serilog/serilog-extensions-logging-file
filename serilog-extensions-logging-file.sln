@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0069BFD6-B0EE-4204-A85F-F75E31A77B3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{B0D573D8-1AE2-4C5C-817A-95815067452E}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		Build.ps1 = Build.ps1
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D54DE844-AC36-4872-928F-5F573D41ACAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{1C72E771-7C72-4A30-A408-5CE66E792ADF}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WebApplication", "example\WebApplication\WebApplication.xproj", "{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Serilog.Extensions.Logging.File", "src\Serilog.Extensions.Logging.File\Serilog.Extensions.Logging.File.xproj", "{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Serilog.Extensions.Logging.File.Tests", "test\Serilog.Extensions.Logging.File.Tests\Serilog.Extensions.Logging.File.Tests.xproj", "{64A3F2C5-D71E-44A6-8DC7-99474765B32E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A3F2C5-D71E-44A6-8DC7-99474765B32E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A3F2C5-D71E-44A6-8DC7-99474765B32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A3F2C5-D71E-44A6-8DC7-99474765B32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A3F2C5-D71E-44A6-8DC7-99474765B32E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A} = {1C72E771-7C72-4A30-A408-5CE66E792ADF}
+		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241} = {0069BFD6-B0EE-4204-A85F-F75E31A77B3C}
+		{64A3F2C5-D71E-44A6-8DC7-99474765B32E} = {D54DE844-AC36-4872-928F-5F573D41ACAE}
+	EndGlobalSection
+EndGlobal
