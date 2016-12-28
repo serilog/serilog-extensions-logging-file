@@ -73,7 +73,7 @@ namespace Microsoft.Extensions.Logging
             }
 
             var levelOverrides = new Dictionary<string, LogLevel>();
-            foreach (var overr in levelSection.GetChildren().Where(cfg => cfg.Value != "Default"))
+            foreach (var overr in levelSection.GetChildren().Where(cfg => cfg.Key != "Default"))
             {
                 LogLevel value;
                 if (!Enum.TryParse(overr.Value, out value))
