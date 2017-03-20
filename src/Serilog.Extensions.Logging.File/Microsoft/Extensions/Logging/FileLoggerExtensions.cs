@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.Logging
     {
         const long DefaultFileSizeLimitBytes = 1024 * 1024 * 1024;
         const int DefaultRetainedFileCountLimit = 31;
+        const string DefaultMessageTemplate = "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}";
 
         /// <summary>
         /// Adds a file logger initialized from the supplied configuration section.
@@ -85,7 +86,9 @@ namespace Microsoft.Extensions.Logging
                 levelOverrides[overr.Key] = value;
             }
 
-            return loggerFactory.AddFile(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit);
+            var messageTemplate = configuration["MessageTemplate"];
+
+            return loggerFactory.AddFile(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, messageTemplate);
         }
 
         /// <summary>
@@ -101,6 +104,7 @@ namespace Microsoft.Extensions.Logging
         /// For unrestricted growth, pass null. The default is 1 GB.</param>
         /// <param name="retainedFileCountLimit">The maximum number of log files that will be retained, including the current
         /// log file. For unlimited retention, pass null. The default is 31.</param>
+        /// <param name="messageTemplate">A message template describing the output messages (applies only for non Json output).</param>
         /// <returns>A logger factory to allow further configuration.</returns>
         public static ILoggerFactory AddFile(
             this ILoggerFactory loggerFactory,
@@ -109,13 +113,14 @@ namespace Microsoft.Extensions.Logging
             IDictionary<string, LogLevel> levelOverrides = null,
             bool isJson = false,
             long? fileSizeLimitBytes = DefaultFileSizeLimitBytes,
-            int? retainedFileCountLimit = DefaultRetainedFileCountLimit)
+            int? retainedFileCountLimit = DefaultRetainedFileCountLimit,
+            string messageTemplate = DefaultMessageTemplate)
         {
             if (pathFormat == null) throw new ArgumentNullException(nameof(pathFormat));
 
             var formatter = isJson ?
                 (ITextFormatter)new RenderedCompactJsonFormatter() :
-                new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}", null);
+                new MessageTemplateTextFormatter(messageTemplate ?? DefaultMessageTemplate, null);
 
 #if SHARING
             const bool sharingSupported = true;
