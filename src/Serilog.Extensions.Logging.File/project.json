@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1-*",
+  "version": "1.0.2-*",
 
   "description": "Add file logging to ASP.NET Core apps with one line of code.",
   "authors": [ "Serilog Contributors" ],
