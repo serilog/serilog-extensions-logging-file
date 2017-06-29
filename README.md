@@ -16,7 +16,7 @@ You can get started quickly with this package, and later migrate to the full Ser
 **1.** Add [the NuGet package](https://nuget.org/packages/serilog.extensions.logging.file) as a dependency of your project either with the package manager or directly to the CSPROJ file:
 
 ```xml
-<PackageReference Include="Serilog.Extensions.Logging.File" Version="1.0.1" />
+<PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
 ```
 
 **2.** In your `Startup` class's `Configure()` method, call `AddFile()` on the provided `loggerFactory`.

@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Add file logging to ASP.NET Core apps with one line of code.</Description>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <VersionPrefix>1.1.0</VersionPrefix>
+    <Authors>Serilog Contributors</Authors>
+    <TargetFrameworks>net45;netstandard1.3</TargetFrameworks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Serilog.Extensions.Logging.File</AssemblyName>
+    <AssemblyOriginatorKeyFile>../../assets/Serilog.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <PackageId>Serilog.Extensions.Logging.File</PackageId>
+    <PackageTags>asp.net;core;logging;file</PackageTags>
+    <PackageIconUrl>http://serilog.net/images/serilog-extension-nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/serilog/serilog-extensions-logging-file</PackageProjectUrl>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.5.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="1.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="1.4.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>
