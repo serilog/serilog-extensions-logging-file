@@ -1,7 +1,0 @@
-2016-10-18T13:03:50.6053012+10:00 0HKVN0DHETANV [INF] Request starting HTTP/1.1 GET http://localhost:58951/   (e5be5b71)
-2016-10-18T13:03:50.6057982+10:00 0HKVN0DHETAO0 [INF] Request starting HTTP/1.1 DEBUG http://localhost:58951/  0 (e5be5b71)
-2016-10-18T13:03:50.7413643+10:00 0HKVN0DHETAO0 [INF] Request finished in 148.0663ms 200  (15c52c40)
-2016-10-18T13:03:51.1853627+10:00 0HKVN0DHETANV [INF] Executing action method "WebApplication.Controllers.HomeController.Index (WebApplication)" with arguments (null) - ModelState is Valid (ba7f4ac2)
-2016-10-18T13:03:51.1968635+10:00 0HKVN0DHETANV [INF] Hello, world! (f83bcf75)
-2016-10-18T13:04:18.3003860+10:00 0HKVN0DHETANV [INF] Executing ViewResult, running view at path "/Views/Home/Index.cshtml". (9707eebe)
-2016-10-18T13:04:18.4170672+10:00 0HKVN0DHETANV [INF] User profile is available. Using '"C:\Users\nblumhardt\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest. (7ac5e29c)
