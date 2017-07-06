@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0069BFD6-B0EE-4204-A85F-F75E31A77B3C}"
 EndProject
@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{B0D573
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		Build.ps1 = Build.ps1
-		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -18,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D54DE844-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{1C72E771-7C72-4A30-A408-5CE66E792ADF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WebApplication", "example\WebApplication\WebApplication.xproj", "{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "example\WebApplication\WebApplication.csproj", "{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Serilog.Extensions.Logging.File", "src\Serilog.Extensions.Logging.File\Serilog.Extensions.Logging.File.xproj", "{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Extensions.Logging.File", "src\Serilog.Extensions.Logging.File\Serilog.Extensions.Logging.File.csproj", "{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Serilog.Extensions.Logging.File.Tests", "test\Serilog.Extensions.Logging.File.Tests\Serilog.Extensions.Logging.File.Tests.xproj", "{64A3F2C5-D71E-44A6-8DC7-99474765B32E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Extensions.Logging.File.Tests", "test\Serilog.Extensions.Logging.File.Tests\Serilog.Extensions.Logging.File.Tests.csproj", "{64A3F2C5-D71E-44A6-8DC7-99474765B32E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

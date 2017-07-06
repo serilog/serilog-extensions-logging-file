@@ -117,12 +117,6 @@ namespace Microsoft.Extensions.Logging
                 (ITextFormatter)new RenderedCompactJsonFormatter() :
                 new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}", null);
 
-#if SHARING
-            const bool sharingSupported = true;
-#else
-            const bool sharingSupported = false;
-#endif
-
             var configuration = new LoggerConfiguration()
                 .MinimumLevel.Is(Conversions.MicrosoftToSerilogLevel(minimumLevel))
                 .Enrich.FromLogContext()
@@ -131,7 +125,7 @@ namespace Microsoft.Extensions.Logging
                     Environment.ExpandEnvironmentVariables(pathFormat),
                     fileSizeLimitBytes: fileSizeLimitBytes,
                     retainedFileCountLimit: retainedFileCountLimit,
-                    shared: sharingSupported, 
+                    shared: true, 
                     flushToDiskInterval: TimeSpan.FromSeconds(2)));
 
             if (!isJson)

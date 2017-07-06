@@ -1,0 +1,6 @@
+2017-06-30T09:38:55.6849437+10:00 0HL5V900UR4A8 [INF] Request starting HTTP/1.1 DEBUG http://localhost:58951/  0 (e5be5b71)
+2017-06-30T09:38:55.6849437+10:00 0HL5V900UR4A9 [INF] Request starting HTTP/1.1 GET http://localhost:58951/   (e5be5b71)
+2017-06-30T09:38:55.8539458+10:00 0HL5V900UR4A8 [INF] Request finished in 184.2573ms 200  (15c52c40)
+2017-06-30T09:38:56.3379450+10:00 0HL5V900UR4A9 [INF] Executing action method "WebApplication.Controllers.HomeController.Index (WebApplication)" with arguments (null) - ModelState is Valid (ba7f4ac2)
+2017-06-30T09:38:56.3499453+10:00 0HL5V900UR4A9 [INF] Hello, world! (f83bcf75)
+2017-06-30T09:38:58.9934553+10:00 0HL5V900UR4A9 [INF] Executing ViewResult, running view at path "/Views/Home/Index.cshtml". (9707eebe)
