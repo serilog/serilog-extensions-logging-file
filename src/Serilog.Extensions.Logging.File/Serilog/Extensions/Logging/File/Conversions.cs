@@ -9,6 +9,8 @@ namespace Serilog.Extensions.Logging.File
         {
             switch (logLevel)
             {
+                // as there is no match for 'None' in Serilog, pick the least logging possible
+                case LogLevel.None:
                 case LogLevel.Critical:
                     return LogEventLevel.Fatal;
                 case LogLevel.Error:
