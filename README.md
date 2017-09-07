@@ -16,17 +16,20 @@ You can get started quickly with this package, and later migrate to the full Ser
 **1.** Add [the NuGet package](https://nuget.org/packages/serilog.extensions.logging.file) as a dependency of your project either with the package manager or directly to the CSPROJ file:
 
 ```xml
-<PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
+<PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
 ```
 
-**2.** In your `Startup` class's `Configure()` method, call `AddFile()` on the provided `loggerFactory`.
+**2.** In your `Program` class, configure logging on the web host builder, and call `AddFile()` on the provided `loggingBuilder`.
 
 ```csharp
-    public void Configure(IApplicationBuilder app,
-                          IHostingEnvironment env,
-                          ILoggerFactory loggerFactory)
+WebHost.CreateDefaultBuilder(args)
+    .ConfigureLogging((hostingContext, builder) =>
     {
-        loggerFactory.AddFile("Logs/myapp-{Date}.txt");
+        var configuration = hostingContext.Configuration.GetSection("Logging");
+        builder.AddFile(configuration);
+    })
+    .UseStartup<Startup>()
+    .Build();
 ```
 
 **Done!** The framework will inject `ILogger` instances into controllers and other classes:
@@ -35,12 +38,12 @@ You can get started quickly with this package, and later migrate to the full Ser
 class HomeController : Controller
 {
     readonly ILogger<HomeController> _log;
-    
+
     public HomeController(ILogger<HomeController> log)
     {
         _log = log;
     }
-    
+
     public IActionResult Index()
     {
         _log.LogInformation("Hello, world!");
@@ -65,12 +68,12 @@ By default, the file will be written in plain text. The fields in the log file a
 | **Level** | The log level assigned to the event. | Three-character code in brackets | `[INF]` |
 | **Message** | The log message associated with the event. | Free text | `Hello, world!` |
 | **Event id** | Identifies messages generated from the same format string/message template. | 32-bit hexadecimal, in parentheses | `(f83bcf75)` |
-| **Exception** | Exception associated with the event. | `Exception.ToString()` format (not shown) | `System.DivideByZeroException: Attempt to divide by zero\r\n\  at...` | 
+| **Exception** | Exception associated with the event. | `Exception.ToString()` format (not shown) | `System.DivideByZeroException: Attempt to divide by zero\r\n\  at...` |
 
 To record events in newline-separated JSON instead, specify `isJson: true` when configuring the logger:
 
 ```csharp
-        loggerFactory.AddFile("Logs/myapp-{Date}.txt", isJson: true);
+loggingBuilder.AddFile("Logs/myapp-{Date}.txt", isJson: true);
 ```
 
 This will produce a log file with lines like:
@@ -141,7 +144,7 @@ In `appsettings.json` add a `"Logging"` property:
 And then pass the configuration section to the `AddFile()` method:
 
 ```csharp
-        loggerFactory.AddFile(Configuration.GetSection("Logging"));
+loggingBuilder.AddFile(Configuration.GetSection("Logging"));
 ```
 
 In addition to the properties shown above, the `"Logging"` configuration supports:
@@ -163,5 +166,5 @@ The following packages are used to provide `AddFile()`:
  * [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) - JSON event formatting
  * [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) - ASP.NET Core integration
  * [Serilog.Sinks.Async](https://github.com/serilog/serilog-sinks-async) - async wrapper to perform log writes on a background thread
- 
+
 If you decide to switch to the full Serilog API and need help, please drop into the [Gitter channel](https://gitter.im/serilog/serilog) or post your question on [Stack Overflow](http://stackoverflow.com/questions/tagged/serilog).

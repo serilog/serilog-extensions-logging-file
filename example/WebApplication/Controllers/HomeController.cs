@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication.Models;
 using Microsoft.Extensions.Logging;
 
 namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        readonly ILogger<HomeController> _log;
+        private readonly ILogger<HomeController> _log;
 
         public HomeController(ILogger<HomeController> log)
         {
@@ -39,7 +41,7 @@ namespace WebApplication.Controllers
 
         public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
