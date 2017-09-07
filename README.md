@@ -25,8 +25,7 @@ You can get started quickly with this package, and later migrate to the full Ser
 WebHost.CreateDefaultBuilder(args)
     .ConfigureLogging((hostingContext, builder) =>
     {
-        var configuration = hostingContext.Configuration.GetSection("Logging");
-        builder.AddFile(configuration);
+        builder.AddFile("Logs/myapp-{Date}.txt");
     })
     .UseStartup<Startup>()
     .Build();
