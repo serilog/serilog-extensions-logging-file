@@ -156,7 +156,7 @@ In addition to the properties shown above, the `"Logging"` configuration support
 
 ### Using the full Serilog API
 
-This package is opinionated, providing the most common/recommended options supported by Serilog. For more sophisticated configuration, using Serilog directly is recommened. See the instructions in [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) to get started.
+This package is opinionated, providing the most common/recommended options supported by Serilog. For more sophisticated configuration, using Serilog directly is recommened. See the instructions in [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) to get started.
 
 The following packages are used to provide `AddFile()`:
 
