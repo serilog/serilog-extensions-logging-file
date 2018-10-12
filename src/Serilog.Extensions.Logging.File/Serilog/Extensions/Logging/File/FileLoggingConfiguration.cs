@@ -23,6 +23,12 @@
         { get; set; }
 
         /// <summary>
+        /// If <c>true</c>, the logs entries will include their scopes.
+        /// </summary>
+        public bool IncludeScopes
+        { get; set; }
+
+        /// <summary>
         /// The maximum size, in bytes, to which any single log file will be
         /// allowed to grow. For unrestricted growth, pass <c>null</c>. The
         /// default is 1 GiB.
