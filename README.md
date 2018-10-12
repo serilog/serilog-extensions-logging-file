@@ -64,6 +64,7 @@ By default, the file will be written in plain text. The fields in the log file a
 | ----- | ----------- | ------ | ------- |
 | **Timestamp** | The time the event occurred. | ISO-8601 with offset | `2016-10-18T11:14:11.0881912+10:00`  |
 | **Request id** | Uniquely identifies all messages raised during a single web request. | Alphanumeric | `0HKVMUG8EMJO9` |
+| **Scopes** | Uniquely identifies all messages raised during a single web request. | Alphanumeric | `"Action" => "Options"` |
 | **Level** | The log level assigned to the event. | Three-character code in brackets | `[INF]` |
 | **Message** | The log message associated with the event. | Free text | `Hello, world!` |
 | **Event id** | Identifies messages generated from the same format string/message template. | 32-bit hexadecimal, in parentheses | `(f83bcf75)` |
@@ -119,6 +120,7 @@ The `AddFile()` method exposes some basic options for controlling the connection
 | `minimumLevel` | The level below which events will be suppressed (the default is `LogLevel.Information`). | `LogLevel.Debug` |
 | `levelOverrides` | A dictionary mapping logger name prefixes to minimum logging levels. | |
 | `isJson` | If true, the log file will be written in JSON format. | `true` |
+| `includeScopes` | If true, the log entires will include their scopes. | `true` |
 | `fileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
 | `retainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 
@@ -132,6 +134,7 @@ In `appsettings.json` add a `"Logging"` property:
 {
   "Logging": {
     "PathFormat": "Logs/log-{Date}.txt",
+    "IncludeScopes": false,
     "LogLevel": {
       "Default": "Debug",
       "Microsoft": "Information"
@@ -151,6 +154,7 @@ In addition to the properties shown above, the `"Logging"` configuration support
 | Property | Description | Example |
 | -------- | ----------- | ------- |
 | `Json` | If `true`, the log file will be written in JSON format. | `true` |
+| `IncludeScopes` | If true, the log entires will include their scopes. | `true` |
 | `FileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
 | `RetainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 
