@@ -53,6 +53,7 @@ namespace Microsoft.Extensions.Logging
         /// For unrestricted growth, pass null. The default is 1 GB.</param>
         /// <param name="retainedFileCountLimit">The maximum number of log files that will be retained, including the current
         /// log file. For unlimited retention, pass null. The default is 31.</param>
+        /// <param name="configurationAction">A LoggerConfiguration delegate to allow different configurations.</param>        
         /// <returns>A logger factory to allow further configuration.</returns>
         public static ILoggerFactory AddFile(
             this ILoggerFactory loggerFactory,
@@ -61,9 +62,10 @@ namespace Microsoft.Extensions.Logging
             IDictionary<string, LogLevel> levelOverrides = null,
             bool isJson = false,
             long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
-            int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit)
+            int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
+            Action<LoggerConfiguration> configurationAction = null)
         {
-            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit);
+            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, configurationAction);
             return loggerFactory.AddSerilog(logger, dispose: true);
         }
 
@@ -104,6 +106,7 @@ namespace Microsoft.Extensions.Logging
         /// For unrestricted growth, pass null. The default is 1 GB.</param>
         /// <param name="retainedFileCountLimit">The maximum number of log files that will be retained, including the current
         /// log file. For unlimited retention, pass null. The default is 31.</param>
+        /// <param name="configurationAction">A LoggerConfiguration delegate to allow different configurations.</param>
         /// <returns>The logging builder to allow further configuration.</returns>
         public static ILoggingBuilder AddFile(this ILoggingBuilder loggingBuilder,
             string pathFormat,
@@ -111,9 +114,10 @@ namespace Microsoft.Extensions.Logging
             IDictionary<string, LogLevel> levelOverrides = null,
             bool isJson = false,
             long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
-            int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit)
+            int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
+            Action<LoggerConfiguration> configurationAction = null)
         {
-            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit);
+            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, configurationAction);
 
             return loggingBuilder.AddSerilog(logger, dispose: true);
         }
@@ -123,7 +127,8 @@ namespace Microsoft.Extensions.Logging
             IDictionary<string, LogLevel> levelOverrides,
             bool isJson,
             long? fileSizeLimitBytes,
-            int? retainedFileCountLimit)
+            int? retainedFileCountLimit,
+            Action<LoggerConfiguration> configurationAction)
         {
             if (pathFormat == null) throw new ArgumentNullException(nameof(pathFormat));
 
@@ -151,6 +156,8 @@ namespace Microsoft.Extensions.Logging
             {
                 configuration.MinimumLevel.Override(levelOverride.Key, Conversions.MicrosoftToSerilogLevel(levelOverride.Value));
             }
+
+            configurationAction?.Invoke(configuration);
 
             return configuration.CreateLogger();
         }
