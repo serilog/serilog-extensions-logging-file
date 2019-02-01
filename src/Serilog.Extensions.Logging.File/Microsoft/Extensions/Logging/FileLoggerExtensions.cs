@@ -53,7 +53,7 @@ namespace Microsoft.Extensions.Logging
         /// For unrestricted growth, pass null. The default is 1 GB.</param>
         /// <param name="retainedFileCountLimit">The maximum number of log files that will be retained, including the current
         /// log file. For unlimited retention, pass null. The default is 31.</param>
-        /// <param name="configurationAction">A LoggerConfiguration delegate to allow different configurations.</param>        
+        /// <param name="configurationAction">A LoggerConfiguration delegate to allow integrations with other Serilog based packages.</param>        
         /// <returns>A logger factory to allow further configuration.</returns>
         public static ILoggerFactory AddFile(
             this ILoggerFactory loggerFactory,
@@ -106,7 +106,7 @@ namespace Microsoft.Extensions.Logging
         /// For unrestricted growth, pass null. The default is 1 GB.</param>
         /// <param name="retainedFileCountLimit">The maximum number of log files that will be retained, including the current
         /// log file. For unlimited retention, pass null. The default is 31.</param>
-        /// <param name="configurationAction">A LoggerConfiguration delegate to allow different configurations.</param>
+        /// <param name="configurationAction">A LoggerConfiguration delegate to allow integrations with other Serilog based packages.</param>
         /// <returns>The logging builder to allow further configuration.</returns>
         public static ILoggingBuilder AddFile(this ILoggingBuilder loggingBuilder,
             string pathFormat,

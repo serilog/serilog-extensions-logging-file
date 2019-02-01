@@ -121,6 +121,7 @@ The `AddFile()` method exposes some basic options for controlling the connection
 | `isJson` | If true, the log file will be written in JSON format. | `true` |
 | `fileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
 | `retainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
+| `configurationAction` | A `LoggerConfiguration` delegate to allow integrations with other Serilog based packages. The default is `null`. | `null`|
 
 ### `appsettings.json` configuration
 
