@@ -8,8 +8,11 @@
         internal const long DefaultFileSizeLimitBytes = 1024 * 1024 * 1024;
         internal const int DefaultRetainedFileCountLimit = 31;
 
+        internal const string DefaultOutputTemplate =
+            "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}";
+
         /// <summary>
-        /// Filname to write. The filename may include <c>{Date}</c> to specify
+        /// Filename to write. The filename may include <c>{Date}</c> to specify
         /// how the date portion of the filename is calculated. May include
         /// environment variables.
         /// </summary>
@@ -37,5 +40,11 @@
         /// </summary>
         public int? RetainedFileCountLimit
         { get; set; } = DefaultRetainedFileCountLimit;
+
+        /// <summary>
+        /// The template used for formatting plain text log output.
+        /// The default is "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"
+        /// </summary>
+        public string OutputTemplate { get; set; } = DefaultOutputTemplate;
     }
 }
