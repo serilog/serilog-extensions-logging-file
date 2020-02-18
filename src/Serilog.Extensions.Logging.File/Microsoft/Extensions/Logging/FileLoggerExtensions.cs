@@ -16,9 +16,6 @@ namespace Microsoft.Extensions.Logging
     /// </summary>
     public static class FileLoggerExtensions
     {
-        const long DefaultFileSizeLimitBytes = 1024 * 1024 * 1024;
-        const int DefaultRetainedFileCountLimit = 31;
-
         /// <summary>
         /// Adds a file logger initialized from the supplied configuration section.
         /// </summary>
@@ -30,62 +27,17 @@ namespace Microsoft.Extensions.Logging
             if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            var pathFormat = configuration["PathFormat"];
-            if (string.IsNullOrWhiteSpace(pathFormat))
+            var config = configuration.Get<FileLoggingConfiguration>();
+            if (string.IsNullOrWhiteSpace(config.PathFormat))
             {
                 SelfLog.WriteLine("Unable to add the file logger: no PathFormat was present in the configuration");
                 return loggerFactory;
             }
 
-            var json = configuration["Json"];
-            var isJson = false;
-            if (!string.IsNullOrWhiteSpace(json))
-                bool.TryParse(json, out isJson);
+            var minimumLevel = GetMinimumLogLevel(configuration);
+            var levelOverrides = GetLevelOverrides(configuration);
 
-            long? fileSizeLimitBytes = DefaultFileSizeLimitBytes;
-            var fileSizeConfiguration = configuration.GetChildren().SingleOrDefault(ch => ch.Key == "FileSizeLimitBytes");
-            if (fileSizeConfiguration != null)
-            {
-                fileSizeLimitBytes = null;
-                if (!string.IsNullOrWhiteSpace(fileSizeConfiguration.Value))
-                    fileSizeLimitBytes = long.Parse(fileSizeConfiguration.Value);
-            }
-
-            int? retainedFileCountLimit = DefaultRetainedFileCountLimit;
-            var retainedLimitConfiguration = configuration.GetChildren().SingleOrDefault(ch => ch.Key == "RetainedFileCountLimit");
-            if (retainedLimitConfiguration != null)
-            {
-                retainedFileCountLimit = null;
-                if (!string.IsNullOrWhiteSpace(retainedLimitConfiguration.Value))
-                    retainedFileCountLimit = int.Parse(retainedLimitConfiguration.Value);
-            }
-
-            var minimumLevel = LogLevel.Information;
-            var levelSection = configuration.GetSection("LogLevel");
-            var defaultLevel = levelSection["Default"];
-            if (!string.IsNullOrWhiteSpace(defaultLevel))
-            {
-                if (!Enum.TryParse(defaultLevel, out minimumLevel))
-                {
-                    SelfLog.WriteLine("The minimum level setting `{0}` is invalid", defaultLevel);
-                    minimumLevel = LogLevel.Information;
-                }
-            }
-
-            var levelOverrides = new Dictionary<string, LogLevel>();
-            foreach (var overr in levelSection.GetChildren().Where(cfg => cfg.Key != "Default"))
-            {
-                LogLevel value;
-                if (!Enum.TryParse(overr.Value, out value))
-                {
-                    SelfLog.WriteLine("The level override setting `{0}` for `{1}` is invalid", overr.Value, overr.Key);
-                    continue;
-                }
-
-                levelOverrides[overr.Key] = value;
-            }
-
-            return loggerFactory.AddFile(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit);
+            return loggerFactory.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate);
         }
 
         /// <summary>
@@ -101,6 +53,8 @@ namespace Microsoft.Extensions.Logging
         /// For unrestricted growth, pass null. The default is 1 GB.</param>
         /// <param name="retainedFileCountLimit">The maximum number of log files that will be retained, including the current
         /// log file. For unlimited retention, pass null. The default is 31.</param>
+        /// <param name="outputTemplate">The template used for formatting plain text log output. The default is
+        /// "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"</param>
         /// <returns>A logger factory to allow further configuration.</returns>
         public static ILoggerFactory AddFile(
             this ILoggerFactory loggerFactory,
@@ -108,24 +62,93 @@ namespace Microsoft.Extensions.Logging
             LogLevel minimumLevel = LogLevel.Information,
             IDictionary<string, LogLevel> levelOverrides = null,
             bool isJson = false,
-            long? fileSizeLimitBytes = DefaultFileSizeLimitBytes,
-            int? retainedFileCountLimit = DefaultRetainedFileCountLimit)
+            long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
+            int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
+            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate)
+        {
+            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate);
+            return loggerFactory.AddSerilog(logger, dispose: true);
+        }
+
+        /// <summary>
+        /// Adds a file logger initialized from the supplied configuration section.
+        /// </summary>
+        /// <param name="loggingBuilder">The logging builder.</param>
+        /// <param name="configuration">A configuration section with file parameters.</param>
+        /// <returns>The logging builder to allow further configuration.</returns>
+        public static ILoggingBuilder AddFile(this ILoggingBuilder loggingBuilder, IConfiguration configuration)
+        {
+            if (loggingBuilder == null) throw new ArgumentNullException(nameof(loggingBuilder));
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+
+            var config = configuration.Get<FileLoggingConfiguration>();
+            if (string.IsNullOrWhiteSpace(config.PathFormat))
+            {
+                SelfLog.WriteLine("Unable to add the file logger: no PathFormat was present in the configuration");
+                return loggingBuilder;
+            }
+
+            var minimumLevel = GetMinimumLogLevel(configuration);
+            var levelOverrides = GetLevelOverrides(configuration);
+
+            return loggingBuilder.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate);
+        }
+
+        /// <summary>
+        /// Adds a file logger initialized from the supplied configuration section.
+        /// </summary>
+        /// <param name="loggingBuilder">The logging builder.</param>
+        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the 
+        /// filename is calculated. May include environment variables.</param>
+        /// <param name="minimumLevel">The level below which events will be suppressed (the default is <see cref="LogLevel.Information"/>).</param>
+        /// <param name="levelOverrides">A dictionary mapping logger name prefixes to minimum logging levels.</param>
+        /// <param name="isJson">If true, the log file will be written in JSON format.</param>
+        /// <param name="fileSizeLimitBytes">The maximum size, in bytes, to which any single log file will be allowed to grow.
+        /// For unrestricted growth, pass null. The default is 1 GB.</param>
+        /// <param name="retainedFileCountLimit">The maximum number of log files that will be retained, including the current
+        /// log file. For unlimited retention, pass null. The default is 31.</param>
+        /// <param name="outputTemplate">The template used for formatting plain text log output. The default is
+        /// "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"</param>
+        /// <returns>The logging builder to allow further configuration.</returns>
+        public static ILoggingBuilder AddFile(this ILoggingBuilder loggingBuilder,
+            string pathFormat,
+            LogLevel minimumLevel = LogLevel.Information,
+            IDictionary<string, LogLevel> levelOverrides = null,
+            bool isJson = false,
+            long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
+            int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
+            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate)
+        {
+            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate);
+
+            return loggingBuilder.AddSerilog(logger, dispose: true);
+        }
+
+        private static Serilog.Core.Logger CreateLogger(string pathFormat,
+            LogLevel minimumLevel,
+            IDictionary<string, LogLevel> levelOverrides,
+            bool isJson,
+            long? fileSizeLimitBytes,
+            int? retainedFileCountLimit,
+            string outputTemplate)
         {
             if (pathFormat == null) throw new ArgumentNullException(nameof(pathFormat));
 
+            if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
+
             var formatter = isJson ?
                 (ITextFormatter)new RenderedCompactJsonFormatter() :
-                new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}", null);
+                new MessageTemplateTextFormatter(outputTemplate, null);
 
             var configuration = new LoggerConfiguration()
                 .MinimumLevel.Is(Conversions.MicrosoftToSerilogLevel(minimumLevel))
                 .Enrich.FromLogContext()
                 .WriteTo.Async(w => w.RollingFile(
-                    formatter, 
+                    formatter,
                     Environment.ExpandEnvironmentVariables(pathFormat),
                     fileSizeLimitBytes: fileSizeLimitBytes,
                     retainedFileCountLimit: retainedFileCountLimit,
-                    shared: true, 
+                    shared: true,
                     flushToDiskInterval: TimeSpan.FromSeconds(2)));
 
             if (!isJson)
@@ -138,8 +161,39 @@ namespace Microsoft.Extensions.Logging
                 configuration.MinimumLevel.Override(levelOverride.Key, Conversions.MicrosoftToSerilogLevel(levelOverride.Value));
             }
 
-            var logger = configuration.CreateLogger();
-            return loggerFactory.AddSerilog(logger, dispose: true);
+            return configuration.CreateLogger();
+        }
+
+        private static LogLevel GetMinimumLogLevel(IConfiguration configuration)
+        {
+            var minimumLevel = LogLevel.Information;
+            var defaultLevel = configuration["LogLevel:Default"];
+            if (!string.IsNullOrWhiteSpace(defaultLevel))
+            {
+                if (!Enum.TryParse(defaultLevel, out minimumLevel))
+                {
+                    SelfLog.WriteLine("The minimum level setting `{0}` is invalid", defaultLevel);
+                    minimumLevel = LogLevel.Information;
+                }
+            }
+            return minimumLevel;
+        }
+
+        private static Dictionary<string, LogLevel> GetLevelOverrides(IConfiguration configuration)
+        {
+            var levelOverrides = new Dictionary<string, LogLevel>();
+            foreach (var overr in configuration.GetSection("LogLevel").GetChildren().Where(cfg => cfg.Key != "Default"))
+            {
+                if (!Enum.TryParse(overr.Value, out LogLevel value))
+                {
+                    SelfLog.WriteLine("The level override setting `{0}` for `{1}` is invalid", overr.Value, overr.Key);
+                    continue;
+                }
+
+                levelOverrides[overr.Key] = value;
+            }
+
+            return levelOverrides;
         }
     }
 }
