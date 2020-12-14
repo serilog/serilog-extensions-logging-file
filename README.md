@@ -85,12 +85,12 @@ The JSON document includes all properties associated with the event, not just th
 
 ### Rolling
 
-The filename provided to `AddFile()` should include the `{Date}` placeholder, which will be replaced with the date of the events contained in the file. Filenames use the `yyyyMMdd` date format so that files can be ordered using a lexicographic sort:
+The rollingInterval provided to `AddFile()` allows you to configure the interval at which files are rolled, by default day rolling is set up. Filenames use the `yyyyMMdd` date format for day rolling so that files can be ordered using a lexicographic sort:
 
 ```
-log-20160631.txt
-log-20160701.txt
-log-20160702.txt
+log20160631.txt
+log20160701.txt
+log20160702.txt
 ```
 
 To prevent outages due to disk space exhaustion, each file is capped to 1 GB in size. If the file size is exceeded, events will be dropped until the next roll point.
@@ -132,7 +132,7 @@ In `appsettings.json` add a `"Logging"` property:
 ```json
 {
   "Logging": {
-    "PathFormat": "Logs/log-{Date}.txt",
+    "PathFormat": "Logs/log.txt",
     "LogLevel": {
       "Default": "Debug",
       "Microsoft": "Information"
@@ -155,6 +155,7 @@ In addition to the properties shown above, the `"Logging"` configuration support
 | `FileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
 | `RetainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 | `OutputTemplate` | The template used for formatting plain text log output. The default is `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}` | `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} {Properties:j} ({EventId:x8}){NewLine}{Exception}` |
+| `RollingInterval` | The interval used for rolling the file. For unlimited logging to single file, pass `Infinite`. The default is `Day`. | `Day`
 
 ### Using the full Serilog API
 
