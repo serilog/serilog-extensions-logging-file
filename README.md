@@ -3,7 +3,7 @@
 This package makes it a one-liner - `loggerFactory.AddFile()` - to configure top-quality file logging for ASP.NET Core apps.
 
  * Text or JSON file output
- * Files roll over on date; capped file size
+ * Files roll over on day; capped file size
  * Request ids and event ids included with each message
  * Writes are performed on a background thread
  * Files are periodically flushed to disk (required for Azure App Service log collection)
@@ -25,7 +25,7 @@ You can get started quickly with this package, and later migrate to the full Ser
 WebHost.CreateDefaultBuilder(args)
     .ConfigureLogging((hostingContext, builder) =>
     {
-        builder.AddFile("Logs/myapp-{Date}.txt");
+        builder.AddFile("Logs/myapp.txt");
     })
     .UseStartup<Startup>()
     .Build();
@@ -72,7 +72,7 @@ By default, the file will be written in plain text. The fields in the log file a
 To record events in newline-separated JSON instead, specify `isJson: true` when configuring the logger:
 
 ```csharp
-loggingBuilder.AddFile("Logs/myapp-{Date}.txt", isJson: true);
+loggingBuilder.AddFile("Logs/myapp.txt", isJson: true);
 ```
 
 This will produce a log file with lines like:
@@ -122,7 +122,7 @@ The `AddFile()` method exposes some basic options for controlling the connection
 | `fileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
 | `retainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 | `outputTemplate` | The template used for formatting plain text log output. The default is `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}` | `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} {Properties:j} ({EventId:x8}){NewLine}{Exception}` |
-| `RollingInterval` | The interval used for rolling the file. For unlimited logging to single file, pass `Infinite`. The default is `Day`. | `Day` |
+| `rollingInterval` | The interval used for rolling the file. For unlimited logging to single file, pass `RollingInterval.Infinite`. The default is `RollingInterval.Day`. | `RollingInterval.Day` |
 
 ### `appsettings.json` configuration
 
