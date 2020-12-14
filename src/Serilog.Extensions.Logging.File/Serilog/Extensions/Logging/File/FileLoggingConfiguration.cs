@@ -11,6 +11,8 @@
         internal const string DefaultOutputTemplate =
             "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}";
 
+        internal const RollingInterval DefaultRollingInterval = RollingInterval.Day;
+
         /// <summary>
         /// Filename to write. The filename may include <c>{Date}</c> to specify
         /// how the date portion of the filename is calculated. May include
@@ -46,5 +48,11 @@
         /// The default is "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"
         /// </summary>
         public string OutputTemplate { get; set; } = DefaultOutputTemplate;
+
+        /// <summary>
+        /// The interval used for rolling the file.
+        /// The default is <see cref="RollingInterval.Day"/>.
+        /// </summary>
+        public RollingInterval RollingInterval { get; set; } = DefaultRollingInterval;
     }
 }

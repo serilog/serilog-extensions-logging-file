@@ -37,7 +37,14 @@ namespace Microsoft.Extensions.Logging
             var minimumLevel = GetMinimumLogLevel(configuration);
             var levelOverrides = GetLevelOverrides(configuration);
 
-            return loggerFactory.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate);
+            return loggerFactory.AddFile(config.PathFormat,
+                                         minimumLevel,
+                                         levelOverrides,
+                                         config.Json,
+                                         config.FileSizeLimitBytes,
+                                         config.RetainedFileCountLimit,
+                                         config.OutputTemplate,
+                                         config.RollingInterval);
         }
 
         /// <summary>
@@ -55,6 +62,7 @@ namespace Microsoft.Extensions.Logging
         /// log file. For unlimited retention, pass null. The default is 31.</param>
         /// <param name="outputTemplate">The template used for formatting plain text log output. The default is
         /// "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"</param>
+        /// <param name="rollingInterval">The interval used for rolling the file. The default is <see cref="RollingInterval.Day"/>.</param>
         /// <returns>A logger factory to allow further configuration.</returns>
         public static ILoggerFactory AddFile(
             this ILoggerFactory loggerFactory,
@@ -64,9 +72,18 @@ namespace Microsoft.Extensions.Logging
             bool isJson = false,
             long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
             int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
-            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate)
+            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate,
+            RollingInterval rollingInterval = FileLoggingConfiguration.DefaultRollingInterval)
         {
-            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate);
+            var logger = CreateLogger(pathFormat,
+                                      minimumLevel,
+                                      levelOverrides,
+                                      isJson,
+                                      fileSizeLimitBytes,
+                                      retainedFileCountLimit,
+                                      outputTemplate,
+                                      rollingInterval);
+
             return loggerFactory.AddSerilog(logger, dispose: true);
         }
 
@@ -91,7 +108,14 @@ namespace Microsoft.Extensions.Logging
             var minimumLevel = GetMinimumLogLevel(configuration);
             var levelOverrides = GetLevelOverrides(configuration);
 
-            return loggingBuilder.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate);
+            return loggingBuilder.AddFile(config.PathFormat,
+                                          minimumLevel,
+                                          levelOverrides,
+                                          config.Json,
+                                          config.FileSizeLimitBytes,
+                                          config.RetainedFileCountLimit,
+                                          config.OutputTemplate,
+                                          config.RollingInterval);
         }
 
         /// <summary>
@@ -109,6 +133,7 @@ namespace Microsoft.Extensions.Logging
         /// log file. For unlimited retention, pass null. The default is 31.</param>
         /// <param name="outputTemplate">The template used for formatting plain text log output. The default is
         /// "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"</param>
+        /// <param name="rollingInterval">The interval used for rolling the file. The default is <see cref="RollingInterval.Day"/>.</param>
         /// <returns>The logging builder to allow further configuration.</returns>
         public static ILoggingBuilder AddFile(this ILoggingBuilder loggingBuilder,
             string pathFormat,
@@ -117,9 +142,17 @@ namespace Microsoft.Extensions.Logging
             bool isJson = false,
             long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
             int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
-            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate)
+            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate,
+            RollingInterval rollingInterval = FileLoggingConfiguration.DefaultRollingInterval)
         {
-            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate);
+            var logger = CreateLogger(pathFormat,
+                                      minimumLevel,
+                                      levelOverrides,
+                                      isJson,
+                                      fileSizeLimitBytes,
+                                      retainedFileCountLimit,
+                                      outputTemplate,
+                                      rollingInterval);
 
             return loggingBuilder.AddSerilog(logger, dispose: true);
         }
@@ -130,7 +163,8 @@ namespace Microsoft.Extensions.Logging
             bool isJson,
             long? fileSizeLimitBytes,
             int? retainedFileCountLimit,
-            string outputTemplate)
+            string outputTemplate,
+            RollingInterval rollingInterval)
         {
             if (pathFormat == null) throw new ArgumentNullException(nameof(pathFormat));
 
@@ -149,7 +183,8 @@ namespace Microsoft.Extensions.Logging
                     fileSizeLimitBytes: fileSizeLimitBytes,
                     retainedFileCountLimit: retainedFileCountLimit,
                     shared: true,
-                    flushToDiskInterval: TimeSpan.FromSeconds(2)));
+                    flushToDiskInterval: TimeSpan.FromSeconds(2),
+                    rollingInterval: rollingInterval));
 
             if (!isJson)
             {
