@@ -143,7 +143,7 @@ namespace Microsoft.Extensions.Logging
             var configuration = new LoggerConfiguration()
                 .MinimumLevel.Is(Conversions.MicrosoftToSerilogLevel(minimumLevel))
                 .Enrich.FromLogContext()
-                .WriteTo.Async(w => w.RollingFile(
+                .WriteTo.Async(w => w.File(
                     formatter,
                     Environment.ExpandEnvironmentVariables(pathFormat),
                     fileSizeLimitBytes: fileSizeLimitBytes,
