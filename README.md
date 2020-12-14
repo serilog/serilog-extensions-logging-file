@@ -165,7 +165,7 @@ This package is opinionated, providing the most common/recommended options suppo
 The following packages are used to provide `AddFile()`:
 
  * [Serilog](https://github.com/serilog/serilog) - the core logging pipeline
- * [Serilog.Sinks.RollingFile](https://github.com/serilog/serilog-sinks-rollingfile) - rolling file output
+ * [Serilog.Sinks.File](https://github.com/serilog/serilog-sinks-file) - (rolling) file output
  * [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) - JSON event formatting
  * [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) - ASP.NET Core integration
  * [Serilog.Sinks.Async](https://github.com/serilog/serilog-sinks-async) - async wrapper to perform log writes on a background thread
