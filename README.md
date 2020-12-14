@@ -122,6 +122,7 @@ The `AddFile()` method exposes some basic options for controlling the connection
 | `fileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
 | `retainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 | `outputTemplate` | The template used for formatting plain text log output. The default is `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}` | `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} {Properties:j} ({EventId:x8}){NewLine}{Exception}` |
+| `RollingInterval` | The interval used for rolling the file. For unlimited logging to single file, pass `Infinite`. The default is `Day`. | `Day` |
 
 ### `appsettings.json` configuration
 
@@ -155,7 +156,7 @@ In addition to the properties shown above, the `"Logging"` configuration support
 | `FileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
 | `RetainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 | `OutputTemplate` | The template used for formatting plain text log output. The default is `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}` | `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} {Properties:j} ({EventId:x8}){NewLine}{Exception}` |
-| `RollingInterval` | The interval used for rolling the file. For unlimited logging to single file, pass `Infinite`. The default is `Day`. | `Day`
+| `RollingInterval` | The interval used for rolling the file. For unlimited logging to single file, pass `Infinite`. The default is `Day`. | `Day` |
 
 ### Using the full Serilog API
 
