@@ -115,7 +115,7 @@ The `AddFile()` method exposes some basic options for controlling the connection
 
 | Parameter | Description | Example value |
 | --------- | ----------- | ------------- |
-| `pathFormat` | Filename to write. The filename may include `{Date}` to specify how the date portion of the filename is calculated. May include environment variables.| `Logs/log-.txt` |
+| `pathFormat` | Filename to write. May include environment variables.| `Logs/log-.txt` |
 | `minimumLevel` | The level below which events will be suppressed (the default is `LogLevel.Information`). | `LogLevel.Debug` |
 | `levelOverrides` | A dictionary mapping logger name prefixes to minimum logging levels. | |
 | `isJson` | If true, the log file will be written in JSON format. | `true` |
