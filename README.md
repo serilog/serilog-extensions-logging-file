@@ -25,7 +25,7 @@ You can get started quickly with this package, and later migrate to the full Ser
 WebHost.CreateDefaultBuilder(args)
     .ConfigureLogging((hostingContext, builder) =>
     {
-        builder.AddFile("Logs/myapp.txt");
+        builder.AddFile("Logs/myapp-.txt");
     })
     .UseStartup<Startup>()
     .Build();
@@ -72,7 +72,7 @@ By default, the file will be written in plain text. The fields in the log file a
 To record events in newline-separated JSON instead, specify `isJson: true` when configuring the logger:
 
 ```csharp
-loggingBuilder.AddFile("Logs/myapp.txt", isJson: true);
+loggingBuilder.AddFile("Logs/myapp-.txt", isJson: true);
 ```
 
 This will produce a log file with lines like:
@@ -88,9 +88,9 @@ The JSON document includes all properties associated with the event, not just th
 The rollingInterval provided to `AddFile()` allows you to configure the interval at which files are rolled, by default day rolling is set up. Filenames use the `yyyyMMdd` date format for day rolling so that files can be ordered using a lexicographic sort:
 
 ```
-log20160631.txt
-log20160701.txt
-log20160702.txt
+log-20160631.txt
+log-20160701.txt
+log-20160702.txt
 ```
 
 To prevent outages due to disk space exhaustion, each file is capped to 1 GB in size. If the file size is exceeded, events will be dropped until the next roll point.
@@ -115,7 +115,7 @@ The `AddFile()` method exposes some basic options for controlling the connection
 
 | Parameter | Description | Example value |
 | --------- | ----------- | ------------- |
-| `pathFormat` | Filename to write. The filename may include `{Date}` to specify how the date portion of the filename is calculated. May include environment variables.| `Logs/log-{Date}.txt` |
+| `pathFormat` | Filename to write. The filename may include `{Date}` to specify how the date portion of the filename is calculated. May include environment variables.| `Logs/log-.txt` |
 | `minimumLevel` | The level below which events will be suppressed (the default is `LogLevel.Information`). | `LogLevel.Debug` |
 | `levelOverrides` | A dictionary mapping logger name prefixes to minimum logging levels. | |
 | `isJson` | If true, the log file will be written in JSON format. | `true` |
@@ -133,7 +133,7 @@ In `appsettings.json` add a `"Logging"` property:
 ```json
 {
   "Logging": {
-    "PathFormat": "Logs/log.txt",
+    "PathFormat": "Logs/log-.txt",
     "LogLevel": {
       "Default": "Debug",
       "Microsoft": "Information"
