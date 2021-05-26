@@ -44,7 +44,7 @@ namespace Microsoft.Extensions.Logging
         /// Adds a file logger initialized from the supplied configuration section.
         /// </summary>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the 
+        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the
         /// filename is calculated. May include environment variables.</param>
         /// <param name="minimumLevel">The level below which events will be suppressed (the default is <see cref="LogLevel.Information"/>).</param>
         /// <param name="levelOverrides">A dictionary mapping logger name prefixes to minimum logging levels.</param>
@@ -98,7 +98,7 @@ namespace Microsoft.Extensions.Logging
         /// Adds a file logger initialized from the supplied configuration section.
         /// </summary>
         /// <param name="loggingBuilder">The logging builder.</param>
-        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the 
+        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the
         /// filename is calculated. May include environment variables.</param>
         /// <param name="minimumLevel">The level below which events will be suppressed (the default is <see cref="LogLevel.Information"/>).</param>
         /// <param name="levelOverrides">A dictionary mapping logger name prefixes to minimum logging levels.</param>
@@ -154,6 +154,11 @@ namespace Microsoft.Extensions.Logging
             if (!isJson)
             {
                 configuration.Enrich.With<EventIdEnricher>();
+            }
+
+            if (outputTemplate.Contains("UtcDateTime"))
+            {
+                configuration.Enrich.With<UtcEnricher>();
             }
 
             foreach (var levelOverride in levelOverrides ?? new Dictionary<string, LogLevel>())
