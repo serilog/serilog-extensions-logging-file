@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>Add file logging to ASP.NET Core apps with one line of code.</Description>
-    <VersionPrefix>3.1.1</VersionPrefix>
+    <VersionPrefix>3.1.0</VersionPrefix>
     <Authors>Serilog Contributors</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
