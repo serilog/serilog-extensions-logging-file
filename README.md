@@ -16,7 +16,7 @@ You can get started quickly with this package, and later migrate to the full Ser
 **1.** Add [the NuGet package](https://nuget.org/packages/serilog.extensions.logging.file) as a dependency of your project either with the package manager or directly to the CSPROJ file:
 
 ```xml
-<PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
+<PackageReference Include="Serilog.Extensions.Logging.File" Version="3.1.0" />
 ```
 
 **2.** In your `Program` class, configure logging on the web host builder, and call `AddFile()` on the provided `loggingBuilder`.
