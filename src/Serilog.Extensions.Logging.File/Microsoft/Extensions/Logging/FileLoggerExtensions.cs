@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Extensions.Logging.File;
-using System.Linq;
+using Serilog.Formatting;
 using Serilog.Formatting.Compact;
 using Serilog.Formatting.Display;
-using Serilog.Formatting;
 
 namespace Microsoft.Extensions.Logging
 {
@@ -44,7 +44,7 @@ namespace Microsoft.Extensions.Logging
         /// Adds a file logger initialized from the supplied configuration section.
         /// </summary>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the 
+        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the
         /// filename is calculated. May include environment variables.</param>
         /// <param name="minimumLevel">The level below which events will be suppressed (the default is <see cref="LogLevel.Information"/>).</param>
         /// <param name="levelOverrides">A dictionary mapping logger name prefixes to minimum logging levels.</param>
@@ -98,7 +98,7 @@ namespace Microsoft.Extensions.Logging
         /// Adds a file logger initialized from the supplied configuration section.
         /// </summary>
         /// <param name="loggingBuilder">The logging builder.</param>
-        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the 
+        /// <param name="pathFormat">Filname to write. The filename may include {Date} to specify how the date portion of the
         /// filename is calculated. May include environment variables.</param>
         /// <param name="minimumLevel">The level below which events will be suppressed (the default is <see cref="LogLevel.Information"/>).</param>
         /// <param name="levelOverrides">A dictionary mapping logger name prefixes to minimum logging levels.</param>
@@ -143,7 +143,7 @@ namespace Microsoft.Extensions.Logging
             var configuration = new LoggerConfiguration()
                 .MinimumLevel.Is(Conversions.MicrosoftToSerilogLevel(minimumLevel))
                 .Enrich.FromLogContext()
-                .WriteTo.Async(w => w.RollingFile(
+                .WriteTo.Async(w => w.File(
                     formatter,
                     Environment.ExpandEnvironmentVariables(pathFormat),
                     fileSizeLimitBytes: fileSizeLimitBytes,
