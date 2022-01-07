@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0069BFD6-B0EE-4204-A85F-F75E31A77B3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{B0D573D8-1AE2-4C5C-817A-95815067452E}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		Build.ps1 = Build.ps1
 		LICENSE = LICENSE
@@ -49,5 +51,8 @@ Global
 		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A} = {1C72E771-7C72-4A30-A408-5CE66E792ADF}
 		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241} = {0069BFD6-B0EE-4204-A85F-F75E31A77B3C}
 		{64A3F2C5-D71E-44A6-8DC7-99474765B32E} = {D54DE844-AC36-4872-928F-5F573D41ACAE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A37A10E-F9A2-4578-9B58-EB7C07B64E66}
 	EndGlobalSection
 EndGlobal

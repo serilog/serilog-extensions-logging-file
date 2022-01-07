@@ -3,8 +3,8 @@ echo "build: Build started"
 Push-Location $PSScriptRoot
 
 if(Test-Path .\artifacts) {
-	echo "build: Cleaning .\artifacts"
-	Remove-Item .\artifacts -Force -Recurse
+    echo "build: Cleaning .\artifacts"
+    Remove-Item .\artifacts -Force -Recurse
 }
 
 & dotnet restore --no-cache
@@ -16,16 +16,16 @@ $commitHash = $(git rev-parse --short HEAD)
 $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($branch)-$($commitHash)" }[$suffix -ne ""]
 
 echo "build: Package version suffix is $suffix"
-echo "build: Build version suffix is $buildSuffix" 
+echo "build: Build version suffix is $buildSuffix"
 
 foreach ($src in ls src/*) {
     Push-Location $src
 
-	echo "build: Packaging project in $src"
+    echo "build: Packaging project in $src"
 
     & dotnet build -c Release --version-suffix=$buildSuffix
     & dotnet pack -c Release --include-symbols -o ..\..\artifacts --version-suffix=$suffix --no-build
-    if($LASTEXITCODE -ne 0) { exit 1 }    
+    if($LASTEXITCODE -ne 0) { exit 1 }
 
     Pop-Location
 }
@@ -33,7 +33,7 @@ foreach ($src in ls src/*) {
 foreach ($test in ls test/*.Tests) {
     Push-Location $test
 
-	echo "build: Testing project in $test"
+    echo "build: Testing project in $test"
 
     & dotnet test -c Release
     if($LASTEXITCODE -ne 0) { exit 3 }
