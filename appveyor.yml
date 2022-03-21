@@ -13,11 +13,11 @@ deploy:
     secure: UxWT5mmjtRUP+5inaZmM2L9cCnqjcoLZpWUMeWR2+f6CG8ERDRu0FLBIL1Ea8+hr
   skip_symbols: true
   on:
-    branch: /^(master|dev)$/
+    branch: /^(main|dev)$/
 - provider: GitHub
   auth_token:
     secure: p4LpVhBKxGS5WqucHxFQ5c7C8cP74kbNB0Z8k9Oxx/PMaDQ1+ibmoexNqVU5ZlmX
   artifact: /Serilog.*\.nupkg/
   tag: v$(appveyor_build_version)
   on:
-    branch: master
+    branch: main
