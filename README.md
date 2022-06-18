@@ -1,11 +1,11 @@
 # Serilog.Extensions.Logging.File [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Serilog.Extensions.Logging.File.svg)](https://nuget.org/packages/Serilog.Extensions.Logging.File) [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog) [![Build status](https://ci.appveyor.com/api/projects/status/rdff6bp9oeqfxif7?svg=true)](https://ci.appveyor.com/project/serilog/serilog-extensions-logging-file)
 
-This package makes it a one-liner - `loggerFactory.AddFile()` - to configure top-quality file logging for ASP.NET Core apps.
+This package makes it a one-liner - `loggingBuilder.AddFile()` - to configure top-quality file logging for ASP.NET Core apps.
 
  * Text or JSON file output
  * Files roll over on date; capped file size
  * Request ids and event ids included with each message
- * Writes are performed on a background thread
+ * Log writes are performed asynchronously
  * Files are periodically flushed to disk (required for Azure App Service log collection)
  * Fast, stable, battle-proven logging code courtesy of [Serilog](https://serilog.net)
 
@@ -19,16 +19,32 @@ You can get started quickly with this package, and later migrate to the full Ser
 <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
 ```
 
-**2.** In your `Program` class, configure logging on the web host builder, and call `AddFile()` on the provided `loggingBuilder`.
+**2.** In your `Program` class, configure logging on the host builder, and call `AddFile()` on the provided `loggingBuilder`:
 
 ```csharp
-WebHost.CreateDefaultBuilder(args)
-    .ConfigureLogging((hostingContext, builder) =>
+Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webHost =>
     {
-        builder.AddFile("Logs/myapp-{Date}.txt");
+        webHost.UseStartup<Startup>();
     })
-    .UseStartup<Startup>()
+    .ConfigureLogging((hostingContext, loggingBuilder) =>
+    {
+        loggingBuilder.AddFile("Logs/myapp-{Date}.txt");
+    })
     .Build();
+```
+
+Or, alternativelly, for [Minimal APIs](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis):
+
+```csharp
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Logging.AddFile("Logs/myapp-{Date}.txt");
+    // Add other services to the container.
+    <...>
+
+    var app = builder.Build();
+    <...>
 ```
 
 **Done!** The framework will inject `ILogger` instances into controllers and other classes:
@@ -144,7 +160,7 @@ In `appsettings.json` add a `"Logging"` property:
 And then pass the configuration section to the `AddFile()` method:
 
 ```csharp
-loggingBuilder.AddFile(Configuration.GetSection("Logging"));
+loggingBuilder.AddFile(hostingContext.Configuration.GetSection("Logging"));
 ```
 
 In addition to the properties shown above, the `"Logging"` configuration supports:
@@ -160,12 +176,12 @@ In addition to the properties shown above, the `"Logging"` configuration support
 
 This package is opinionated, providing the most common/recommended options supported by Serilog. For more sophisticated configuration, using Serilog directly is recommened. See the instructions in [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) to get started.
 
-The following packages are used to provide `AddFile()`:
+The following packages are used to provide `loggingBuilder.AddFile()`:
 
  * [Serilog](https://github.com/serilog/serilog) - the core logging pipeline
- * [Serilog.Sinks.RollingFile](https://github.com/serilog/serilog-sinks-rollingfile) - rolling file output
  * [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) - JSON event formatting
  * [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) - ASP.NET Core integration
- * [Serilog.Sinks.Async](https://github.com/serilog/serilog-sinks-async) - async wrapper to perform log writes on a background thread
+ * [Serilog.Sinks.Async](https://github.com/serilog/serilog-sinks-async) - wrapper to perform log writes asynchronously
+ * [Serilog.Sinks.RollingFile](https://github.com/serilog/serilog-sinks-rollingfile) - rolling file output
 
 If you decide to switch to the full Serilog API and need help, please drop into the [Gitter channel](https://gitter.im/serilog/serilog) or post your question on [Stack Overflow](http://stackoverflow.com/questions/tagged/serilog).
