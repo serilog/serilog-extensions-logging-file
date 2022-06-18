@@ -34,7 +34,7 @@ Host.CreateDefaultBuilder(args)
     .Build();
 ```
 
-Or, alternativelly, for [Minimal APIs](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis):
+Or, alternatively, with [Minimal APIs](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis):
 
 ```csharp
     var builder = WebApplication.CreateBuilder(args);
