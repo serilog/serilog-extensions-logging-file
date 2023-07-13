@@ -109,13 +109,7 @@ log-20160701.txt
 log-20160702.txt
 ```
 
-To prevent outages due to disk space exhaustion, each file is capped to 1 GB in size. If the file size is exceeded, events will be dropped until the next roll point or new file with number appended in the format <code>_NNN</code>, with the first filename given no number, if rollOnFileSizeLimit is true.
-
-```
-log-20160631.txt
-log-20160631_001.txt
-log-20160631_002.txt
-```
+To prevent outages due to disk space exhaustion, each file is capped to 1 GB in size. If the file size is exceeded, events will be dropped until the next roll point.
 
 ### Message templates and event ids
 
