@@ -46,5 +46,13 @@
         /// The default is "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"
         /// </summary>
         public string OutputTemplate { get; set; } = DefaultOutputTemplate;
+
+        /// <summary>
+        /// If true, a new file will be created when the file size limit is reached. Filenames
+        /// will have a number appended in the format _NNN, with the first filename given no number.
+        /// The default is false
+        /// </summary>
+        public bool RollOnFileSizeLimit
+        { get; set; } = false;
     }
 }

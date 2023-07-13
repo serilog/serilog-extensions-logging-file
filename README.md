@@ -136,6 +136,7 @@ The `AddFile()` method exposes some basic options for controlling the connection
 | `levelOverrides` | A dictionary mapping logger name prefixes to minimum logging levels. | |
 | `isJson` | If true, the log file will be written in JSON format. | `true` |
 | `fileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
+| `rollOnFileSizeLimit` | If true, a new file will be created when the file size limit is reached. The default is `false`. | `true` |
 | `retainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 | `outputTemplate` | The template used for formatting plain text log output. The default is `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}` | `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} {Properties:j} ({EventId:x8}){NewLine}{Exception}` |
 
@@ -169,6 +170,7 @@ In addition to the properties shown above, the `"Logging"` configuration support
 | -------- | ----------- | ------- |
 | `Json` | If `true`, the log file will be written in JSON format. | `true` |
 | `FileSizeLimitBytes` | The maximum size, in bytes, to which any single log file will be allowed to grow. For unrestricted growth, pass`null`. The default is 1 GiB. | `1024 * 1024 * 1024` |
+| `RollOnFileSizeLimit` | If true, a new file will be created when the file size limit is reached. The default is `false`. | `true` |
 | `RetainedFileCountLimit` | The maximum number of log files that will be retained, including the current log file. For unlimited retention, pass `null`. The default is `31`. | `31` |
 | `OutputTemplate` | The template used for formatting plain text log output. The default is `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}` | `{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} {Properties:j} ({EventId:x8}){NewLine}{Exception}` |
 
@@ -182,6 +184,6 @@ The following packages are used to provide `loggingBuilder.AddFile()`:
  * [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) - JSON event formatting
  * [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) - ASP.NET Core integration
  * [Serilog.Sinks.Async](https://github.com/serilog/serilog-sinks-async) - wrapper to perform log writes asynchronously
- * [Serilog.Sinks.RollingFile](https://github.com/serilog/serilog-sinks-rollingfile) - rolling file output
+ * [Serilog.Sinks.File](https://github.com/serilog/serilog-sinks-file) - rolling file output
 
 If you decide to switch to the full Serilog API and need help, please drop into the [Gitter channel](https://gitter.im/serilog/serilog) or post your question on [Stack Overflow](http://stackoverflow.com/questions/tagged/serilog).

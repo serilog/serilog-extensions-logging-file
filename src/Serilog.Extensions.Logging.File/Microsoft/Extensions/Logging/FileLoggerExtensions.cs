@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.Logging
             var minimumLevel = GetMinimumLogLevel(configuration);
             var levelOverrides = GetLevelOverrides(configuration);
 
-            return loggerFactory.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate);
+            return loggerFactory.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate, config.RollOnFileSizeLimit);
         }
 
         /// <summary>
@@ -55,6 +55,8 @@ namespace Microsoft.Extensions.Logging
         /// log file. For unlimited retention, pass null. The default is 31.</param>
         /// <param name="outputTemplate">The template used for formatting plain text log output. The default is
         /// "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"</param>
+        /// <param name="rollOnFileSizeLimit">If true, a new file will be created when the file size limit is reached. Filenames
+        /// will have a number appended in the format _NNN, with the first filename given no number. The default is false</param>
         /// <returns>A logger factory to allow further configuration.</returns>
         public static ILoggerFactory AddFile(
             this ILoggerFactory loggerFactory,
@@ -64,9 +66,10 @@ namespace Microsoft.Extensions.Logging
             bool isJson = false,
             long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
             int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
-            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate)
+            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate,
+            bool rollOnFileSizeLimit = false)
         {
-            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate);
+            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate, rollOnFileSizeLimit);
             return loggerFactory.AddSerilog(logger, dispose: true);
         }
 
@@ -91,7 +94,7 @@ namespace Microsoft.Extensions.Logging
             var minimumLevel = GetMinimumLogLevel(configuration);
             var levelOverrides = GetLevelOverrides(configuration);
 
-            return loggingBuilder.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate);
+            return loggingBuilder.AddFile(config.PathFormat, minimumLevel, levelOverrides, config.Json, config.FileSizeLimitBytes, config.RetainedFileCountLimit, config.OutputTemplate, config.RollOnFileSizeLimit);
         }
 
         /// <summary>
@@ -109,6 +112,8 @@ namespace Microsoft.Extensions.Logging
         /// log file. For unlimited retention, pass null. The default is 31.</param>
         /// <param name="outputTemplate">The template used for formatting plain text log output. The default is
         /// "{Timestamp:o} {RequestId,13} [{Level:u3}] {Message} ({EventId:x8}){NewLine}{Exception}"</param>
+        /// <param name="rollOnFileSizeLimit">If true, a new file will be created when the file size limit is reached. Filenames
+        /// will have a number appended in the format _NNN, with the first filename given no number. The default is false</param>
         /// <returns>The logging builder to allow further configuration.</returns>
         public static ILoggingBuilder AddFile(this ILoggingBuilder loggingBuilder,
             string pathFormat,
@@ -117,9 +122,10 @@ namespace Microsoft.Extensions.Logging
             bool isJson = false,
             long? fileSizeLimitBytes = FileLoggingConfiguration.DefaultFileSizeLimitBytes,
             int? retainedFileCountLimit = FileLoggingConfiguration.DefaultRetainedFileCountLimit,
-            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate)
+            string outputTemplate = FileLoggingConfiguration.DefaultOutputTemplate,
+            bool rollOnFileSizeLimit = false)
         {
-            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate);
+            var logger = CreateLogger(pathFormat, minimumLevel, levelOverrides, isJson, fileSizeLimitBytes, retainedFileCountLimit, outputTemplate, rollOnFileSizeLimit);
 
             return loggingBuilder.AddSerilog(logger, dispose: true);
         }
@@ -130,7 +136,8 @@ namespace Microsoft.Extensions.Logging
             bool isJson,
             long? fileSizeLimitBytes,
             int? retainedFileCountLimit,
-            string outputTemplate)
+            string outputTemplate,
+            bool rollOnFileSizeLimit)
         {
             if (pathFormat == null) throw new ArgumentNullException(nameof(pathFormat));
 
@@ -143,13 +150,15 @@ namespace Microsoft.Extensions.Logging
             var configuration = new LoggerConfiguration()
                 .MinimumLevel.Is(Conversions.MicrosoftToSerilogLevel(minimumLevel))
                 .Enrich.FromLogContext()
-                .WriteTo.Async(w => w.RollingFile(
+                .WriteTo.Async(w => w.File(
                     formatter,
                     Environment.ExpandEnvironmentVariables(pathFormat),
                     fileSizeLimitBytes: fileSizeLimitBytes,
                     retainedFileCountLimit: retainedFileCountLimit,
                     shared: true,
-                    flushToDiskInterval: TimeSpan.FromSeconds(2)));
+                    flushToDiskInterval: TimeSpan.FromSeconds(2),
+                    rollingInterval: RollingInterval.Day,
+                    rollOnFileSizeLimit: rollOnFileSizeLimit));
 
             if (!isJson)
             {
