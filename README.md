@@ -1,4 +1,4 @@
-# Serilog.Extensions.Logging.File [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Serilog.Extensions.Logging.File.svg)](https://nuget.org/packages/Serilog.Extensions.Logging.File) [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog) [![Build status](https://ci.appveyor.com/api/projects/status/rdff6bp9oeqfxif7?svg=true)](https://ci.appveyor.com/project/serilog/serilog-extensions-logging-file)
+# Serilog.Extensions.Logging.File&nbsp;[![Build status](https://github.com/serilog/serilog-extensions-logging-file/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/serilog/serilog-extensions-logging-file/actions)&nbsp;[![NuGet Version](http://img.shields.io/nuget/v/Serilog.Extensions.Logging.File.svg?style=flat)](https://www.nuget.org/packages/Serilog.Extensions.Logging.File/)
 
 This package makes it a one-liner - `loggingBuilder.AddFile()` - to configure top-quality file logging for ASP.NET Core apps.
 
@@ -11,40 +11,28 @@ This package makes it a one-liner - `loggingBuilder.AddFile()` - to configure to
 
 You can get started quickly with this package, and later migrate to the full Serilog API if you need more sophisticated log file configuration.
 
+### Versioning
+
+This package tracks the version of ASP.NET Core that it targets. If you're using 9.x.x of ASP.NET Core, use 9.x.x of _Serilog.Extensions.Logging.File_, and so on.
+
+> If the version you're using doesn't have a corresponding _Serilog.Extensions.Logging.File_ release, target v3.x of this package.
+
 ### Getting started
 
 **1.** Add [the NuGet package](https://nuget.org/packages/serilog.extensions.logging.file) as a dependency of your project either with the package manager or directly to the CSPROJ file:
 
 ```xml
-<PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
+<PackageReference Include="Serilog.Extensions.Logging.File" Version="9.0.0" />
 ```
 
-**2.** In your `Program` class, configure logging on the host builder, and call `AddFile()` on the provided `loggingBuilder`:
+**2.** In your `Program` class, configure logging on the host builder, and call `AddFile()` on the provided `ILoggingBuilder`:
 
 ```csharp
-Host.CreateDefaultBuilder(args)
-    .ConfigureWebHostDefaults(webHost =>
-    {
-        webHost.UseStartup<Startup>();
-    })
-    .ConfigureLogging((hostingContext, loggingBuilder) =>
-    {
-        loggingBuilder.AddFile("Logs/myapp-{Date}.txt");
-    })
-    .Build();
-```
+builder.Services.AddLogging(logging =>
+{
+    logging.AddFile("Logs/myapp-{Date}.txt");
+});
 
-Or, alternatively, with [Minimal APIs](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis):
-
-```csharp
-    var builder = WebApplication.CreateBuilder(args);
-
-    builder.Logging.AddFile("Logs/myapp-{Date}.txt");
-    // Add other services to the container.
-    <...>
-
-    var app = builder.Build();
-    <...>
 ```
 
 **Done!** The framework will inject `ILogger` instances into controllers and other classes:
@@ -174,7 +162,7 @@ In addition to the properties shown above, the `"Logging"` configuration support
 
 ### Using the full Serilog API
 
-This package is opinionated, providing the most common/recommended options supported by Serilog. For more sophisticated configuration, using Serilog directly is recommened. See the instructions in [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) to get started.
+This package is opinionated, providing the most common/recommended options supported by Serilog. For more sophisticated configuration, using Serilog directly is recommended. See the instructions in [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) to get started.
 
 The following packages are used to provide `loggingBuilder.AddFile()`:
 

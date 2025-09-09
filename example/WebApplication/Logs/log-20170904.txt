@@ -1,6 +1,0 @@
-2017-09-04T12:23:39.9205194+02:00 0HL7JFS1C6IAQ:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:52126/   (ca22a1cb)
-2017-09-04T12:23:39.9685124+02:00 0HL7JFS1C6IAQ:00000001 [INF] Executing action method "WebApplication.Controllers.HomeController.Index (WebApplication)" with arguments (null) - ModelState is Valid (ba7f4ac2)
-2017-09-04T12:23:39.9689269+02:00 0HL7JFS1C6IAQ:00000001 [INF] Hello, world! (f83bcf75)
-2017-09-04T12:23:41.5391807+02:00 0HL7JFS1C6IAQ:00000001 [INF] Executing ViewResult, running view at path "/Views/Home/Index.cshtml". (9707eebe)
-2017-09-04T12:23:41.7710750+02:00 0HL7JFS1C6IAQ:00000001 [INF] Executed action "WebApplication.Controllers.HomeController.Index (WebApplication)" in 1807.3437ms (afa2e885)
-2017-09-04T12:23:41.7735962+02:00 0HL7JFS1C6IAQ:00000001 [INF] Request finished in 1854.3777ms 200 text/html; charset=utf-8 (791a596a)

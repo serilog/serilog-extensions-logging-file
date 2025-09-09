@@ -9,21 +9,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{B0D573
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		appveyor.yml = appveyor.yml
 		Build.ps1 = Build.ps1
 		LICENSE = LICENSE
 		README.md = README.md
+		global.json = global.json
+		Directory.Version.props = Directory.Version.props
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D54DE844-AC36-4872-928F-5F573D41ACAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{1C72E771-7C72-4A30-A408-5CE66E792ADF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "example\WebApplication\WebApplication.csproj", "{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Extensions.Logging.File", "src\Serilog.Extensions.Logging.File\Serilog.Extensions.Logging.File.csproj", "{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Extensions.Logging.File.Tests", "test\Serilog.Extensions.Logging.File.Tests\Serilog.Extensions.Logging.File.Tests.csproj", "{64A3F2C5-D71E-44A6-8DC7-99474765B32E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "example\ConsoleApp1\ConsoleApp1.csproj", "{EB4D5CC9-8E9F-499F-84BB-7BE9D3CC4578}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,14 +41,18 @@ Global
 		{64A3F2C5-D71E-44A6-8DC7-99474765B32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64A3F2C5-D71E-44A6-8DC7-99474765B32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64A3F2C5-D71E-44A6-8DC7-99474765B32E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB4D5CC9-8E9F-499F-84BB-7BE9D3CC4578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4D5CC9-8E9F-499F-84BB-7BE9D3CC4578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4D5CC9-8E9F-499F-84BB-7BE9D3CC4578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4D5CC9-8E9F-499F-84BB-7BE9D3CC4578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FC44EC1F-AD83-4522-99B4-4B309B8CC78A} = {1C72E771-7C72-4A30-A408-5CE66E792ADF}
 		{E640A22A-DF3C-40A2-AC72-DEB2F9B16241} = {0069BFD6-B0EE-4204-A85F-F75E31A77B3C}
 		{64A3F2C5-D71E-44A6-8DC7-99474765B32E} = {D54DE844-AC36-4872-928F-5F573D41ACAE}
+		{EB4D5CC9-8E9F-499F-84BB-7BE9D3CC4578} = {1C72E771-7C72-4A30-A408-5CE66E792ADF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A37A10E-F9A2-4578-9B58-EB7C07B64E66}
